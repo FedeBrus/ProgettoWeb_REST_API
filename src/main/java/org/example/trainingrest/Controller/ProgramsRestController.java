@@ -1,6 +1,7 @@
 package org.example.trainingrest.Controller;
 
 import org.example.trainingrest.Repositories.ProgramsRepository;
+import org.example.trainingrest.pojo.Program;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class ProgramsRestController {
     }
 
     @GetMapping("/default")
-    public List<String> defaultPrograms() {
-        return new LinkedList<String>();
+    public List<Program> defaultPrograms() {
+        return programsRepository.getDefaults();
     }
 }
