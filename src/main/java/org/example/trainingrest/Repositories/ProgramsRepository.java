@@ -15,22 +15,6 @@ public class ProgramsRepository {
     }
 
     @Transactional
-    public void addUser(User u) {
-        String sql = "INSERT INTO UserData VALUES (?, ?, ?, ?, ?, ?)";
-        jdbc.update(sql,
-                u.getUsername(),
-                u.getName(),
-                u.getSurname(),
-                u.getDate_of_birth(),
-                u.getEmail(),
-                java.sql.Date.valueOf(u.getReg_date())
-        );
+    public void getDefaults() {
     }
-
-    @Transactional
-    public int removeExpiredUsers() {
-        String sql = "DELETE FROM USERS WHERE ENABLED = FALSE";
-        return jdbc.update(sql);
-    }
-
 }
