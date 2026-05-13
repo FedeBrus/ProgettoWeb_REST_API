@@ -11,10 +11,6 @@ public class Program {
     private String owner;
     private List<Exercise> exercises;
 
-    public Program() {
-        this.exercises = new ArrayList<>();
-    }
-
     public Program(String name, boolean isDefault, String owner) {
         this.name = name;
         this.isDefault = isDefault;
