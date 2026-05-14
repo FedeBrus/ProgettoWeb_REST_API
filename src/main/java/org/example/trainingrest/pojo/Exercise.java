@@ -6,6 +6,10 @@ public class Exercise {
     private int reps;
     private int kcal;
 
+    public Exercise() {
+
+    }
+
     public Exercise(String name, int sets, int reps, int kcal) {
         this.name = name;
         this.sets = sets;
@@ -13,15 +17,33 @@ public class Exercise {
         this.kcal = kcal;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public int getSets() { return sets; }
-    public void setSets(int sets) { this.sets = sets; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int getReps() { return reps; }
-    public void setReps(int reps) { this.reps = reps; }
+    public int getSets() {
+        return sets;
+    }
+
+    public void setSets(int sets) {
+        this.sets = sets;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public void setReps(int reps) {
+        this.reps = reps;
+    }
+
+    public void setKcal(int kcal) {
+        this.kcal = kcal;
+    }
 
     public int getKcal() { return kcal; }
-    public void setKcal(int kcal) { this.kcal = kcal; }
 }

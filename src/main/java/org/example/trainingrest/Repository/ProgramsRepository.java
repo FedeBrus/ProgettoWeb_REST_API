@@ -1,4 +1,4 @@
-package org.example.trainingrest.Repositories;
+package org.example.trainingrest.Repository;
 
 import org.example.trainingrest.pojo.Exercise;
 import org.example.trainingrest.pojo.Program;
@@ -23,27 +23,24 @@ public class ProgramsRepository {
     @Transactional
     public List<Program> getDefaults() {
         String sql = """
-            SELECT p.name, p.owner
-            FROM Programs p
-            WHERE p.is_default = TRUE;
+            SELECT DISTINCT e.program_name
+            FROM Exercises e
         """;
 
-        RowMapper<String[]> rm = (r, i) -> {
-            return new String[] {r.getString(1), r.getString(2)};
+        RowMapper<String> rm = (r, i) -> {
+            return r.getString(1);
         };
 
-        List<String[]> defaultPrograms = jdbc.query(sql, rm);
+        List<String> defaultProgramNames = jdbc.query(sql, rm);
 
         List<Program> result = new ArrayList<>();
 
-        for (String[] dp : defaultPrograms) {
-            String programName = dp[0];
-            String programOwner = dp[1];
+        for (String programName : defaultProgramNames) {
 
             sql = """
                 SELECT e.name, e.sets, e.reps, e.kcal
                 FROM Exercises e
-                WHERE e.program_name = ? AND e.program_owner = ?;
+                WHERE e.program_name = ?;
             """;
 
             RowMapper<Exercise> rme = (r, i) -> {
@@ -55,11 +52,9 @@ public class ProgramsRepository {
                 );
             };
 
-            List<Exercise> programExercises = jdbc.query(sql, rme, programName, programOwner);
+            List<Exercise> programExercises = jdbc.query(sql, rme, programName);
 
-            Program toBeAdded = new Program(programName, true, programOwner);
-            toBeAdded.setExercises(programExercises);
-            result.add(toBeAdded);
+            result.add(new Program(programName, programExercises));
 
             // DA MIGLIORARE
             // Fare una query con una join che sicuramente il dbms è più efficiente di noi
@@ -67,5 +62,26 @@ public class ProgramsRepository {
         }
 
         return result;
+    }
+
+    public List<Exercise> getDetails(String defaultProgramName) {
+        String sql = """
+                SELECT e.name, e.sets, e.reps, e.kcal
+                FROM Exercises e
+                WHERE e.program_name = ?;
+            """;
+
+        RowMapper<Exercise> rme = (r, i) -> {
+            return new Exercise(
+                    r.getString(1),
+                    r.getInt(2),
+                    r.getInt(3),
+                    r.getInt(4)
+            );
+        };
+
+        List<Exercise> programExercises = jdbc.query(sql, rme, defaultProgramName);
+
+        return programExercises;
     }
 }
