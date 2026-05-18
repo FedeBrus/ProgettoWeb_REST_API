@@ -26,8 +26,8 @@ public class ProgramsRestController {
         return programsRepository.getDefaults();
     }
 
-    @GetMapping("/default/{defaultProgramName}")
-    public List<Exercise> detailsOfDefaultProgram(@PathVariable String defaultProgramName) {
+    @GetMapping("/details")
+    public List<Exercise> detailsOfDefaultProgram(@RequestParam String defaultProgramName) {
         return programsRepository.getDetails(defaultProgramName);
     }
 
